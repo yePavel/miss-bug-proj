@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "my miss-bug proj",
   "main": "app.js",
+  "type": "module",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
+    "start": "nodemon --ignore \"./data\" server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "me",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2"
+  }
 }

@@ -10,8 +10,14 @@ export const bugService = {
 
 var bugs = utilService.readJsonFile('./data/bug.json')
 
-function query() {
-    return Promise.resolve(bugs)
+function query(filterBy = { txt: '', severity: 0 }) {
+    const regExp = new RegExp(filterBy.txt, 'i')
+
+    var filteredBugs = bugs.filter((bug) =>
+        (regExp.test(bug.description) || regExp.test(bug.title)) &&
+        bug.severity >= filterBy.severity
+    )
+    return Promise.resolve(filteredBugs)
 }
 
 function getById(bugId) {
@@ -41,3 +47,4 @@ function save(bugToSave) {
 function _saveBugsToFile() {
     return utilService.writeJsonFile('./data/bug.json', bugs)
 }
+

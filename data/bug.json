@@ -1,0 +1,72 @@
+[
+  {
+    "_id": "abc123",
+    "title": "Cannot save a new bug",
+    "description": "problem when clicking Save",
+    "severity": 3,
+    "createdAt": 1542107359454
+  },
+  {
+    "_id": "def456",
+    "title": "Error loading page",
+    "description": "404 error when accessing the homepage",
+    "severity": 2,
+    "createdAt": 1542107359455
+  },
+  {
+    "_id": "ghi789",
+    "title": "Missing icons",
+    "description": "Icons not displayed on the dashboard",
+    "severity": 4,
+    "createdAt": 1542107359456
+  },
+  {
+    "_id": "jkl012",
+    "title": "Slow performance",
+    "description": "Application takes too long to respond",
+    "severity": 3,
+    "createdAt": 1542107359457
+  },
+  {
+    "_id": "mno345",
+    "title": "Login failure",
+    "description": "Users unable to login with valid credentials",
+    "severity": 1,
+    "createdAt": 1542107359458
+  },
+  {
+    "_id": "pqr678",
+    "title": "Data sync issue",
+    "description": "Data not syncing between servers",
+    "severity": 5,
+    "createdAt": 1542107359459
+  },
+  {
+    "_id": "stu901",
+    "title": "Broken link",
+    "description": "Link to the user guide is broken",
+    "severity": 2,
+    "createdAt": 1542107359460
+  },
+  {
+    "_id": "vwx234",
+    "title": "Permission error",
+    "description": "Unauthorized access to admin panel",
+    "severity": 1,
+    "createdAt": 1542107359461
+  },
+  {
+    "_id": "yz5678",
+    "title": "Payment gateway error",
+    "description": "Payments failing for some users",
+    "severity": 4,
+    "createdAt": 1542107359462
+  },
+  {
+    "_id": "abc901",
+    "title": "Image upload issue",
+    "description": "Error uploading profile pictures",
+    "severity": 3,
+    "createdAt": 1542107359463
+  }
+]

@@ -1,52 +1,10 @@
 [
   {
-    "_id": "abc123",
-    "title": "Cannot save a new bug",
-    "description": "problem when clicking Save",
-    "severity": 3,
-    "createdAt": 1542107359454
-  },
-  {
-    "_id": "def456",
-    "title": "Error loading page",
-    "description": "404 error when accessing the homepage",
-    "severity": 2,
-    "createdAt": 1542107359455
-  },
-  {
-    "_id": "ghi789",
-    "title": "Missing icons",
-    "description": "Icons not displayed on the dashboard",
-    "severity": 4,
-    "createdAt": 1542107359456
-  },
-  {
-    "_id": "jkl012",
-    "title": "Slow performance",
-    "description": "Application takes too long to respond",
-    "severity": 3,
-    "createdAt": 1542107359457
-  },
-  {
-    "_id": "mno345",
-    "title": "Login failure",
-    "description": "Users unable to login with valid credentials",
-    "severity": 1,
-    "createdAt": 1542107359458
-  },
-  {
-    "_id": "pqr678",
-    "title": "Data sync issue",
-    "description": "Data not syncing between servers",
-    "severity": 5,
-    "createdAt": 1542107359459
-  },
-  {
     "_id": "stu901",
     "title": "Broken link",
     "description": "Link to the user guide is broken",
-    "severity": 2,
-    "createdAt": 1542107359460
+    "createdAt": 1542107359460,
+    "severity": 3
   },
   {
     "_id": "vwx234",
@@ -68,5 +26,12 @@
     "description": "Error uploading profile pictures",
     "severity": 3,
     "createdAt": 1542107359463
+  },
+  {
+    "_id": "gGG1vz",
+    "title": "ghgh",
+    "description": "fdfd",
+    "createdAt": "2024-06-15T11:37:02.561Z",
+    "severity": 3
   }
 ]

@@ -3,6 +3,7 @@ import express from 'express'
 import { bugService } from './services/bug.service.js'
 
 const app = express()
+app.use(express.static('public'))
 
 app.get('/api/bug', (req, res) => {
     bugService.query()
@@ -13,8 +14,14 @@ app.get('/api/bug', (req, res) => {
 })
 
 app.get('/api/bug/save', (req, res) => {
-    const { _id, title, severity } = req.query
-    const bugToSave = { _id, title, severity: +severity }
+    const { _id, title, severity, description, createdAt } = req.query
+    const bugToSave = {
+        _id,
+        title,
+        description,
+        createdAt: +createdAt,
+        severity: +severity
+    }
 
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))

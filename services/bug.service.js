@@ -31,6 +31,7 @@ function save(bugToSave) {
         bugs.splice(idx, 1, bugToSave)
     } else {
         bugToSave._id = utilService.makeId()
+        bugToSave.createdAt = new Date()
         bugs.push(bugToSave)
     }
     return _saveBugsToFile()

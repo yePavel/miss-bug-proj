@@ -13,3 +13,13 @@
     align-items: center;
     background-color: var(--clr1bg);
 }
+
+.bug-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-decoration: none;
+}
+
+.bug-list .bug-container h4 {
+    color: blue;
+}

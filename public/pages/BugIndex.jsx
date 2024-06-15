@@ -1,4 +1,4 @@
-import { bugService } from '../services/bug.service.copy.js'
+import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 
@@ -32,6 +32,7 @@ export function BugIndex() {
   function onAddBug() {
     const bug = {
       title: prompt('Bug title?'),
+      description: prompt('Insert description:'),
       severity: +prompt('Bug severity?'),
     }
     bugService
@@ -65,7 +66,10 @@ export function BugIndex() {
       })
   }
 
+  if (!bugs || !bugs.length) return <h1>No bugs today</h1>
+
   return (
+
     <main>
       <h3>Bugs App</h3>
       <main>

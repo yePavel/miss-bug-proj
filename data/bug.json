@@ -4,7 +4,12 @@
     "title": "Broken link",
     "description": "Link to the user guide is broken",
     "createdAt": 1542107359460,
-    "severity": 2
+    "severity": 5,
+    "labels": [
+      "critical",
+      "documentation",
+      "user-guide"
+    ]
   },
   {
     "_id": "vwx234",
@@ -40,6 +45,18 @@
       "medium-priority",
       "uploads",
       "profile-pictures"
+    ]
+  },
+  {
+    "_id": "gGG1vz",
+    "title": "ghgh",
+    "description": "fdfd",
+    "createdAt": "2024-06-15T11:37:02.561Z",
+    "severity": 3,
+    "labels": [
+      "low-priority",
+      "test",
+      "misc"
     ]
   }
 ]

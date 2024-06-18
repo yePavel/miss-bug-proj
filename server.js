@@ -48,7 +48,7 @@ app.post('/api/bug/', (req, res) => {
         .then(savedBug => res.send(savedBug))
 })
 
-app.get('/api/bug/download', (req, res) => {
+app.get('/api/bug/download', () => {
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream('bugs.pdf'));
     doc.fontSize(25)
@@ -67,11 +67,10 @@ app.get('/api/bug/download', (req, res) => {
 
 app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
-    var visitedBugs = req.cookies.visitedBugs || []
 
+    var visitedBugs = req.cookies.visitedBugs || []
     if (visitedBugs.length >= 3) res.status(401).send('Wait for a bit')
     if (!visitedBugs.includes(bugId)) visitedBugs.push(bugId)
-
     res.cookie('visitedBugs', visitedBugs, { maxAge: 7000 })
     console.log('user visited at the following bugs:', visitedBugs)
 
@@ -79,7 +78,7 @@ app.get('/api/bug/:bugId', (req, res) => {
         .then(bug => res.send(bug))
 })
 
-app.delete('/api/bug/:bugId/remove', (req, res) => {
+app.delete('/api/bug/:bugId', (req, res) => {
     const { _id } = req.body
     bugService.remove(_id)
         .then(() => res.send(`Bug ${_id} has been deleted..`))

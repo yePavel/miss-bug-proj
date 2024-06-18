@@ -3,12 +3,14 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 import { pdfService } from '../services/pdf.service.js'
+import { utilService } from '../services/util.service.js'
 
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.createDefaultFilter())
+  const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
 
   useEffect(() => {
     console.log('filterBy:', filterBy)
@@ -74,6 +76,10 @@ export function BugIndex() {
     bugService.onDownloadPdf()
   }
 
+  function onSetFilterBy(filterBy) {
+    setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+  }
+
   if (!bugs || !bugs.length) return <h1>No bugs today</h1>
 
   return (
@@ -81,7 +87,7 @@ export function BugIndex() {
     <main>
       <h3>Bugs App</h3>
       <main>
-        <BugFilter filterBy={filterBy} onFilter={setFilterBy} />
+        <BugFilter filterBy={filterBy} onSetFilterBy={debouncedSetFilterBy.current} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <button onClick={onCreatePdf}>Download PDF</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />

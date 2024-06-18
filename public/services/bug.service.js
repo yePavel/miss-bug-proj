@@ -1,6 +1,3 @@
-import { storageService } from './async-storage.service.js'
-
-const STORAGE_KEY = 'bugDB'
 const BASE_URL = '/api/bug/'
 
 export const bugService = {
@@ -22,7 +19,7 @@ function getById(bugId) {
 }
 
 function remove(bugId) {
-    return axios.delete(BASE_URL + `${bugId}/remove`)
+    return axios.delete(BASE_URL + `${bugId}`)
         .then(res => res.data)
 }
 
@@ -37,7 +34,7 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: 0 }
+    return { txt: '', severity: '' }
 }
 
 function onDownloadPdf() {

@@ -1,12 +1,13 @@
+import { utilService } from "../services/util.service.js"
+
 const { useState, useEffect } = React
 
-export function BugFilter({ filterBy, onFilter }) {
+export function BugFilter({ filterBy, onSetFilterBy }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
-
     useEffect(() => {
-        onFilter(filterByToEdit)
+        onSetFilterBy(filterByToEdit)
     }, [filterByToEdit])
 
     function handleChange({ target }) {

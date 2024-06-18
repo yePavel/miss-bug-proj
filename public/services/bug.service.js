@@ -2,12 +2,14 @@ import { storageService } from './async-storage.service.js'
 
 const STORAGE_KEY = 'bugDB'
 const BASE_URL = '/api/bug'
+
 export const bugService = {
     query,
     getById,
     save,
     remove,
-    createDefaultFilter
+    createDefaultFilter,
+    onDownloadPdf
 }
 
 function query(filterBy) {
@@ -36,4 +38,8 @@ function save(bug) {
 
 function createDefaultFilter() {
     return { txt: '', severity: 0 }
+}
+
+function onDownloadPdf() {
+    return axios.get(BASE_URL + `/download`).then(res => res.data)
 }

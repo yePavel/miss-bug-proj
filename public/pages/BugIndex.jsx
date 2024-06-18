@@ -2,6 +2,7 @@ import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
+import { pdfService } from '../services/pdf.service.js'
 
 const { useState, useEffect } = React
 
@@ -69,6 +70,10 @@ export function BugIndex() {
       })
   }
 
+  function onCreatePdf() {
+    bugService.onDownloadPdf()
+  }
+
   if (!bugs || !bugs.length) return <h1>No bugs today</h1>
 
   return (
@@ -78,6 +83,7 @@ export function BugIndex() {
       <main>
         <BugFilter filterBy={filterBy} onFilter={setFilterBy} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
+        <button onClick={onCreatePdf}>Download PDF</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
     </main>

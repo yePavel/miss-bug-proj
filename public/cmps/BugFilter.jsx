@@ -16,7 +16,7 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
         setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [name]: value }))
     }
 
-    const { txt, severity } = filterByToEdit
+    const { txt, severity, labels } = filterByToEdit
 
     return (
         <section className="bug-filter">
@@ -31,6 +31,11 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
                 name="severity"
                 type="number"
                 placeholder="Severity search.." />
+            <input onChange={handleChange}
+                value={labels}
+                name="labels"
+                type="text"
+                placeholder="Labels search.." />
         </section>
     )
 }

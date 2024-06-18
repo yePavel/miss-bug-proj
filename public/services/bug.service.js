@@ -10,7 +10,7 @@ export const bugService = {
 }
 
 function query(filterBy) {
-    return axios.get(`${BASE_URL}`, { params: filterBy })
+    return axios.get(BASE_URL, { params: filterBy })
         .then(res => res.data)
 }
 
@@ -34,7 +34,7 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: '' }
+    return { txt: '', severity: '', labels: '' }
 }
 
 function onDownloadPdf() {

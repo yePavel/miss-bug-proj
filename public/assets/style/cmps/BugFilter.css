@@ -1,8 +1,17 @@
 .bug-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     background-color: var(--clr2bg);
+    padding: 10px;
+    margin-block-end: 10px;
 }
 
 .bug-filter form {
     display: grid;
     grid-template-columns: 100px 200px;
+}
+
+.bug-filter input {
+    width: 500px;
 }

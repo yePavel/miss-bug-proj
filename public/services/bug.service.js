@@ -1,7 +1,7 @@
 import { storageService } from './async-storage.service.js'
 
 const STORAGE_KEY = 'bugDB'
-const BASE_URL = '/api/bug'
+const BASE_URL = '/api/bug/'
 
 export const bugService = {
     query,
@@ -13,25 +13,25 @@ export const bugService = {
 }
 
 function query(filterBy) {
-    const { txt, severity } = filterBy
-    return axios.get(`${BASE_URL}?&severity=${severity}&txt=${txt}`).then(res => res.data)
+    return axios.get(`${BASE_URL}`, { params: filterBy })
+        .then(res => res.data)
 }
 
 function getById(bugId) {
-    return axios.get(BASE_URL + `/${bugId}`).then(res => res.data)
+    return axios.get(BASE_URL + `${bugId}`).then(res => res.data)
 }
 
 function remove(bugId) {
-    return axios.get(BASE_URL + `/${bugId}/remove`).then(res => res.data)
+    return axios.delete(BASE_URL + `${bugId}/remove`)
+        .then(res => res.data)
 }
 
 function save(bug) {
-    const { _id, title, severity, description, createdAt } = bug
     if (bug._id) {
-        return axios.get(BASE_URL + `/save?_id=${_id}&severity=${severity}&title=${title}&description=${description}&createdAt=${createdAt}`)
+        return axios.put(BASE_URL + bug._id, bug)
             .then(res => res.data)
     } else {
-        return axios.get(BASE_URL + `/save?severity=${severity}&title=${title}&description=${description}&createdAt=${createdAt}`)
+        return axios.post(BASE_URL, bug)
             .then(res => res.data)
     }
 }
@@ -41,5 +41,5 @@ function createDefaultFilter() {
 }
 
 function onDownloadPdf() {
-    return axios.get(BASE_URL + `/download`).then(res => res.data)
+    return axios.get(BASE_URL + `download`).then(res => res.data)
 }

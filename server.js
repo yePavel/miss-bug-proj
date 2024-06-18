@@ -8,8 +8,9 @@ import { bugService } from './services/bug.service.js'
 const app = express()
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(express.json())
 
-app.get('/api/bug', (req, res) => {
+app.get('/api/bug/', (req, res) => {
     const { txt, severity = +severity } = req.query
 
     bugService.query({ txt, severity })
@@ -19,19 +20,32 @@ app.get('/api/bug', (req, res) => {
         })
 })
 
-app.get('/api/bug/save', (req, res) => {
-    const { _id, title, severity, description, createdAt } = req.query
+app.put('/api/bug/:bugId', (req, res) => {
+    const { _id, title, severity, description, createdAt } = req.body
+
     const bugToSave = {
         _id,
-        title,
-        description,
-        createdAt: +createdAt,
-        severity: +severity
+        title: title || '',
+        description: description || '',
+        createdAt: +createdAt || 0,
+        severity: +severity || 0
     }
-
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
 
+})
+
+app.post('/api/bug/', (req, res) => {
+    const { title, severity, description, createdAt } = req.body
+
+    const bugToSave = {
+        title: title || '',
+        description: description || '',
+        createdAt: +createdAt || 0,
+        severity: +severity || 0
+    }
+    bugService.save(bugToSave)
+        .then(savedBug => res.send(savedBug))
 })
 
 app.get('/api/bug/download', (req, res) => {
@@ -65,11 +79,10 @@ app.get('/api/bug/:bugId', (req, res) => {
         .then(bug => res.send(bug))
 })
 
-app.get('/api/bug/:bugId/remove', (req, res) => {
-    const { bugId } = req.params
-    bugService.remove(bugId)
-        .then(() => res.send(`Bug ${bugId} has been deleted..`))
-
+app.delete('/api/bug/:bugId/remove', (req, res) => {
+    const { _id } = req.body
+    bugService.remove(_id)
+        .then(() => res.send(`Bug ${_id} has been deleted..`))
 })
 
 app.listen(3030, () => console.log('Server ready at port 3030')) 

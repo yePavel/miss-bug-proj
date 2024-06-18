@@ -23,8 +23,8 @@ export function BugIndex() {
     bugService
       .remove(bugId)
       .then(() => {
-        console.log('Deleted Succesfully!')
         setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
+        console.log('Deleted Succesfully!')
         showSuccessMsg('Bug removed')
       })
       .catch((err) => {

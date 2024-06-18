@@ -1,4 +1,4 @@
-.car-list {
+.bug-list {
     padding: 15px 0 0;
     list-style: none;
     display: grid;
@@ -6,12 +6,12 @@
     gap: 15px;
 }
 
-.car-list li {
+.bug-list li {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--clr1bg);
+    background-color: #949494;
 }
 
 .bug-list {

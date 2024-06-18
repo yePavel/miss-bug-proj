@@ -40,12 +40,15 @@ app.get('/api/bug/download', (req, res) => {
     doc.fontSize(25)
         .text('Bugs List', 100, 100);
 
-    // bugService.query().then(bugs => {
-    //     bugs.forEach(bug => {
-    //         var bugTxt = `${bug.title}, ${bug.description}, severity:${bug.severity}`
-    //         doc.text(bugTxt);
-    //     })
-    //     doc.end()
+    bugService.query().then(bugs => {
+        bugs.forEach(bug => {
+            var bugTxt = `${bug.title}, ${bug.description}, 
+            severity:${bug.severity}`
+
+            doc.text(bugTxt);
+        })
+        doc.end()
+    })
 })
 
 app.get('/api/bug/:bugId', (req, res) => {

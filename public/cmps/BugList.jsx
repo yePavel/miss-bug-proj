@@ -1,8 +1,8 @@
-const {Link} = ReactRouterDOM
+const { Link } = ReactRouterDOM
 
-import {BugPreview} from './BugPreview.jsx'
+import { BugPreview } from './BugPreview.jsx'
 
-export function BugList({bugs, onRemoveBug, onEditBug}) {
+export function BugList({ bugs, onRemoveBug, onEditBug }) {
   return (
     <ul className="bug-list">
       {bugs.map((bug) => (
@@ -24,7 +24,7 @@ export function BugList({bugs, onRemoveBug, onEditBug}) {
               Edit
             </button>
           </div>
-          <Link to={`/bug/${bug._id}`}>Details</Link>
+          <button><Link to={`/bug/${bug._id}`}>Details</Link></button>
         </li>
       ))}
     </ul>

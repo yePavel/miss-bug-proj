@@ -35,7 +35,7 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: '', labels: '', sortBy: '' }
+    return { txt: '', severity: '', labels: '', sortBy: '', sortDir: '' }
 }
 
 function onDownloadPdf() {

@@ -12,6 +12,17 @@
     grid-template-columns: 100px 200px;
 }
 
-.bug-filter input {
-    width: 500px;
+.bug-filter input,
+select {
+    width: 400px;
+}
+
+.sortBy-container {
+    display: grid;
+    grid-template-columns: 100px 30px;
+    margin-block-start: 5px;
+}
+
+.sortBy-container input {
+    width: 20px;
 }

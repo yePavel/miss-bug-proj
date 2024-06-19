@@ -11,6 +11,7 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
     }, [filterByToEdit])
 
     function handleChange({ target }) {
+        console.log('target.value:', target.value)
         const { name, type } = target
         const value = (type === 'number') ? +target.value : target.value
         setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [name]: value }))
@@ -44,6 +45,18 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
                 <option value="severity">Severity</option>
                 <option value="date">Date</option>
             </select>
+            <div className="sortBy-container">
+                <label htmlFor="sortBy-dir-des">Descending</label>
+                <input id='sortBy-dir-des' onChange={handleChange}
+                    name='sortDir'
+                    type="radio"
+                    value='des' />
+                <label htmlFor="sortBy-dir-asc">Ascending</label>
+                <input id='sortBy-dir-asc' onChange={handleChange}
+                    name='sortDir'
+                    type="radio"
+                    value="asc" />
+            </div>
 
         </section>
     )

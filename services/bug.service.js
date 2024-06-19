@@ -10,7 +10,8 @@ export const bugService = {
 
 var bugs = utilService.readJsonFile('./data/bug.json')
 
-function query(filterBy = { txt: '', severity: 0, labels: '', sortBy }) {
+function query(filterBy = { txt: '', severity: 0, labels: '', sortBy: '', sortDir: 1 }) {
+    console.log('filterBy:', filterBy)
     const regExp = new RegExp(filterBy.txt, 'i')
 
     var filteredBugs = bugs.filter((bug) =>
@@ -21,26 +22,26 @@ function query(filterBy = { txt: '', severity: 0, labels: '', sortBy }) {
     )
 
     if (filterBy.sortBy.length > 0) {
+
         console.log('filterBy.sortBy:', filterBy.sortBy)
         switch (filterBy.sortBy) {
             case 'title':
                 filteredBugs.sort((a, b) =>
-                    a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+                    (a.title.toLowerCase().localeCompare(b.title.toLowerCase())) * filterBy.sortDir
                 )
                 break;
             case 'severity':
                 filteredBugs.sort((a, b) =>
-                    a.severity - b.severity
+                    (a.severity - b.severity) * filterBy.sortDir
                 )
                 break;
             case 'date':
                 filteredBugs.sort((a, b) =>
-                    a.createdAt - b.createdAt
+                    (a.createdAt - b.createdAt) * filterBy.sortDir
                 )
                 break;
         }
     }
-    console.log('filteredBugs!~!~!', filteredBugs)
     return Promise.resolve(filteredBugs)
 }
 

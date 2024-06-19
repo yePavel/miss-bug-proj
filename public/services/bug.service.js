@@ -24,6 +24,7 @@ function remove(bugId) {
 }
 
 function save(bug) {
+    console.log('bug:', bug)
     if (bug._id) {
         return axios.put(BASE_URL + bug._id, bug)
             .then(res => res.data)
@@ -34,7 +35,7 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: '', labels: '' }
+    return { txt: '', severity: '', labels: '', sortBy: '' }
 }
 
 function onDownloadPdf() {

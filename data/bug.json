@@ -48,15 +48,13 @@
     ]
   },
   {
-    "_id": "gGG1vz",
-    "title": "ghgh",
-    "description": "fdfd",
-    "createdAt": "2024-06-15T11:37:02.561Z",
-    "severity": 3,
+    "title": "asd",
+    "description": "asd",
+    "createdAt": "2024-06-18T14:26:07.396Z",
+    "severity": 2,
     "labels": [
-      "low-priority",
-      "test",
-      "misc"
-    ]
+      "asd"
+    ],
+    "_id": "awZ72m"
   }
 ]

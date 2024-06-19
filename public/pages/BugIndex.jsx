@@ -13,7 +13,6 @@ export function BugIndex() {
   const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
 
   useEffect(() => {
-    console.log('filterBy:', filterBy)
     loadBugs()
   }, [filterBy])
 
@@ -40,6 +39,7 @@ export function BugIndex() {
       title: prompt('Bug title?'),
       description: prompt('Insert description:'),
       severity: +prompt('Bug severity?'),
+      labels: [prompt('Bug label?')]
     }
     bugService
       .save(bug)

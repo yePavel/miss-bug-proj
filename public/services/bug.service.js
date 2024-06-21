@@ -15,7 +15,12 @@ function query(filterBy) {
 }
 
 function getById(bugId) {
-    return axios.get(BASE_URL + `${bugId}`).then(res => res.data)
+    return axios.get(BASE_URL + `${bugId}`)
+        .then(res => res.data)
+        .catch(err => {
+            console.log('err:', err)
+            throw err
+        })
 }
 
 function remove(bugId) {
@@ -35,7 +40,7 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: '', labels: '', sortBy: '', sortDir: '' }
+    return { txt: '', severity: '', labels: [], sortBy: '', sortDir: '' }
 }
 
 function onDownloadPdf() {

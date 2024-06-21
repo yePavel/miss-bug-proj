@@ -4,6 +4,7 @@ import PDFDocument from 'pdfkit'
 import fs from 'fs'
 
 import { bugService } from './services/bug.service.js'
+import { loggerService } from './services/logger.service.js'
 
 const app = express()
 app.use(express.static('public'))
@@ -26,7 +27,7 @@ app.get('/api/bug/', (req, res) => {
         })
 })
 
-app.put('/api/bug/:bugId', (req, res) => {
+app.put('/api/bug/', (req, res) => {
     const { _id, title, severity, description, createdAt, labels } = req.body
 
     const bugToSave = {
@@ -40,6 +41,10 @@ app.put('/api/bug/:bugId', (req, res) => {
 
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
+        .catch(err => {
+            loggerService.error(`Couldn't update bug ${bugToSave._id}`, err)
+            res.status(500).send(`Couldn't update bug ${bugToSave._id}`)
+        })
 
 })
 
@@ -78,19 +83,27 @@ app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
 
     var visitedBugs = req.cookies.visitedBugs || []
-    if (visitedBugs.length >= 3) res.status(401).send('Wait for a bit')
+    if (visitedBugs.length >= 3) return res.status(401).send('Wait for a bit')
     if (!visitedBugs.includes(bugId)) visitedBugs.push(bugId)
-    res.cookie('visitedBugs', visitedBugs, { maxAge: 7000 })
+    res.cookie('visitedBugs', visitedBugs, { maxAge: 10000 })
     console.log('user visited at the following bugs:', visitedBugs)
 
     bugService.getById(bugId)
         .then(bug => res.send(bug))
+        .catch(err => {
+            loggerService.error(`Couldn't get bug ${bugId}`, err)
+            res.status(500).send(`Couldn't get bug ${bugId}`)
+        })
 })
 
 app.delete('/api/bug/:bugId', (req, res) => {
     const { _id } = req.body
     bugService.remove(_id)
         .then(() => res.send(`Bug ${_id} has been deleted..`))
+        .catch(err => {
+            loggerService.error(`Couldn't delete bug ${_id}`, err)
+            res.status(500).send(`Couldn't delete bug ${_id}`)
+        })
 })
 
 app.listen(3030, () => console.log('Server ready at port 3030')) 

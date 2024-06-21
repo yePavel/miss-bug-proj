@@ -2,7 +2,7 @@ import { utilService } from "../services/util.service.js"
 
 const { useState, useEffect } = React
 
-export function BugFilter({ filterBy, onSetFilterBy }) {
+export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
@@ -11,11 +11,35 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
     }, [filterByToEdit])
 
     function handleChange({ target }) {
-        console.log('target.value:', target.value)
         const { name, type } = target
-        const value = (type === 'number') ? +target.value : target.value
+        let value = target.value
+
+        switch (type) {
+            case 'number':
+                value = +value || ''
+                break;
+
+            case 'checkbox':
+                value = value.checked ? 1 : -1
+                break;
+
+            default:
+                break;
+        }
+
         setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [name]: value }))
     }
+
+    function handleLabelChange({ target }) {
+        const { name: label, checked: isChecked } = target
+
+        setFilterByToEdit(prevFilter => ({
+            ...prevFilter,
+            labels: isChecked ? [...prevFilter.labels, label]
+                : prevFilter.labels.filter(lbl => lbl !== label)
+        }))
+    }
+
 
     const { txt, severity, labels, sortBy } = filterByToEdit
 
@@ -32,11 +56,22 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
                 name="severity"
                 type="number"
                 placeholder="Severity search.." />
-            <input onChange={handleChange}
-                value={labels}
-                name="labels"
-                type="text"
-                placeholder="Labels search.." />
+
+
+            <div className="labels-container">
+                <h3>Labels:</h3>
+                {availableLabels.map(label => (
+                    <label key={label}>
+                        <input
+                            type="checkbox"
+                            name={label}
+                            checked={labels.includes(label)}
+                            onChange={handleLabelChange}
+                        />
+                        {label}
+                    </label>
+                ))}
+            </div>
 
             <label htmlFor="sortBy-select">Sort by:</label>
             <select onChange={handleChange} name="sortBy" id="sortBy-select" >

@@ -6,7 +6,8 @@ export const bugService = {
     save,
     remove,
     createDefaultFilter,
-    onDownloadPdf
+    onDownloadPdf,
+    loadLabels
 }
 
 function query(filterBy) {
@@ -21,6 +22,11 @@ function getById(bugId) {
             console.log('err:', err)
             throw err
         })
+}
+
+function loadLabels() {
+    return axios.get(BASE_URL + 'labels')
+        .then(res => res.data)
 }
 
 function remove(bugId) {

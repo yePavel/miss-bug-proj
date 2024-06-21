@@ -9,15 +9,33 @@ const { useState, useEffect, useRef } = React
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
+  const [labels, setLabels] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.createDefaultFilter())
   const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
+
+  useEffect(() => {
+    loadLabels()
+  }, [])
 
   useEffect(() => {
     loadBugs()
   }, [filterBy])
 
+
   function loadBugs() {
-    bugService.query(filterBy).then(setBugs)
+    console.log('filterBy:', filterBy)
+    bugService.query(filterBy)
+      .then(setBugs)
+      .catch(err => console.log('err:', err))
+  }
+
+  function loadLabels() {
+    bugService.loadLabels()
+      .then(labels => setLabels(labels))
+      .catch(err => {
+        showErrorMsg(`Cannot get labels`)
+        console.log('err:', err)
+      })
   }
 
   function onRemoveBug(bugId) {
@@ -80,17 +98,19 @@ export function BugIndex() {
     setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
   }
 
-  if (!bugs || !bugs.length) return <h1>No bugs today</h1>
-
   return (
 
     <main>
       <h3>Bugs App</h3>
       <main>
-        <BugFilter filterBy={filterBy} onSetFilterBy={debouncedSetFilterBy.current} />
+        <BugFilter filterBy={filterBy} onSetFilterBy={debouncedSetFilterBy.current} labels={labels} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <button onClick={onCreatePdf}>Download PDF</button>
-        <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
+        {bugs && bugs.length ?
+          <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
+          : <h1>No bugs today</h1>
+        }
+
       </main>
     </main>
   )

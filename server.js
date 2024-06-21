@@ -15,7 +15,7 @@ app.get('/api/bug/', (req, res) => {
     const filterBy = {
         txt: req.query.txt || '',
         severity: +req.query.severity || 0,
-        labels: req.query.labels || '',
+        labels: req.query.labels || [],
         sortBy: req.query.sortBy || '',
         sortDir: req.query.sortDir === 'des' ? -1 : 1
     }
@@ -23,6 +23,16 @@ app.get('/api/bug/', (req, res) => {
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => {
+            loggerService.error(`Couldn't get bug ${bugId}`, err)
+            res.status(500).send(`Couldn't get bugs...`)
+        })
+})
+
+app.get('/api/bug/labels', (req, res) => {
+    bugService.getLabels()
+        .then(labels => res.send(labels))
+        .catch(err => {
+            loggerService.error(`Couldn't get bug ${bugId}`, err)
             res.status(500).send(`Couldn't get bugs...`)
         })
 })

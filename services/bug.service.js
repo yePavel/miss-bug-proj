@@ -6,23 +6,28 @@ export const bugService = {
     getById,
     save,
     remove,
+    getLabels
 }
 
 var bugs = utilService.readJsonFile('./data/bug.json')
 
-function query(filterBy = { txt: '', severity: 0, labels: '', sortBy: '', sortDir: 1 }) {
+function query(filterBy) {
     console.log('filterBy:', filterBy)
+    var filteredBugs = bugs
+    if (!filterBy) return Promise.resolve(filteredBugs)
     const regExp = new RegExp(filterBy.txt, 'i')
 
-    var filteredBugs = bugs.filter((bug) =>
+    filteredBugs = bugs.filter((bug) =>
         (regExp.test(bug.description) || regExp.test(bug.title)) &&
-        bug.severity >= filterBy.severity &&
-        bug.labels.some(label => label.includes(filterBy.labels)
-        )
+        bug.severity >= filterBy.severity
+        // bug.labels.some(label => label.includes(filterBy.labels))
     )
 
-    if (filterBy.sortBy.length > 0) {
+    if (filterBy.labels?.length) {
+        filteredBugs = filteredBugs.filter(bug => filterBy.labels.every(label => bug.labels.includes(label)))
+    }
 
+    if (filterBy.sortBy.length > 0) {
         console.log('filterBy.sortBy:', filterBy.sortBy)
         switch (filterBy.sortBy) {
             case 'title':
@@ -43,6 +48,15 @@ function query(filterBy = { txt: '', severity: 0, labels: '', sortBy: '', sortDi
         }
     }
     return Promise.resolve(filteredBugs)
+}
+
+function getLabels() {
+    return query().then(bugs => {
+        const bugsLabels = bugs.reduce((acc, bug) => {
+            return [...acc, ...bug.labels]
+        }, [])
+        return [...new Set(bugsLabels)]
+    })
 }
 
 function getById(bugId) {

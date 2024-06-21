@@ -6,9 +6,8 @@
     "createdAt": 1542107359460,
     "severity": 5,
     "labels": [
-      "critical",
-      "documentation",
-      "user-guide"
+      "urgent",
+      "security"
     ]
   },
   {
@@ -19,8 +18,7 @@
     "createdAt": 1542107359461,
     "labels": [
       "high-priority",
-      "security",
-      "admin"
+      "security"
     ]
   },
   {
@@ -31,8 +29,7 @@
     "createdAt": 1542107359462,
     "labels": [
       "urgent",
-      "payments",
-      "gateway"
+      "security"
     ]
   },
   {
@@ -43,8 +40,7 @@
     "createdAt": 1542107359463,
     "labels": [
       "medium-priority",
-      "uploads",
-      "profile-pictures"
+      "uploads"
     ]
   },
   {
@@ -53,7 +49,8 @@
     "createdAt": "2024-06-18T14:26:07.396Z",
     "severity": 2,
     "labels": [
-      "asd"
+      "asd",
+      "medium-priority"
     ],
     "_id": "awZ72m"
   }

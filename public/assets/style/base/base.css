@@ -2,10 +2,11 @@
   box-sizing: border-box;
 }
 
-html {
-}
+html {}
 
 body {
+  display: flex;
+  justify-content: center;
   margin: 0;
   color: var(--gray3);
 }
@@ -47,5 +48,5 @@ object {
 
 
 .about nav a {
-    margin-right: 10px;
+  margin-right: 10px;
 }

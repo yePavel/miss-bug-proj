@@ -26,3 +26,18 @@ select {
 .sortBy-container input {
     width: 20px;
 }
+
+.labels-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.labels-container input {
+    width: auto;
+    padding: 5px;
+}
+
+.labels-container label {
+    padding: 10px;
+}

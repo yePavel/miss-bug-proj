@@ -2,7 +2,7 @@ import { utilService } from "../services/util.service.js"
 
 const { useState, useEffect } = React
 
-export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) {
+export function BugFilter({ pageCount, filterBy, onSetFilterBy, labels: availableLabels }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
@@ -27,7 +27,7 @@ export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) 
                 break;
         }
 
-        setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [name]: value }))
+        setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [name]: value, pageIdx: 0 }))
     }
 
     function handleLabelChange({ target }) {
@@ -42,7 +42,8 @@ export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) 
 
     function onGetPage(dir) {
         let pageIdx = filterByToEdit.pageIdx + dir
-        if (pageIdx < 0) return
+        if (pageIdx < 0) pageIdx = pageCount - 1
+        if (pageIdx === pageCount) pageIdx = 0
         setFilterByToEdit(prev => ({ ...prev, pageIdx }))
     }
     const { txt, severity, labels, sortBy, pageIdx } = filterByToEdit
@@ -99,7 +100,7 @@ export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) 
 
             <div>
                 <button onClick={() => onGetPage(-1)}>Prev page</button>
-                <span>-{pageIdx}-</span>
+                <span>-{pageIdx + 1}-</span>
                 <button onClick={() => onGetPage(1)}>Next page</button>
             </div>
 

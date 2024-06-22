@@ -30,6 +30,15 @@ app.get('/api/bug/', (req, res) => {
         })
 })
 
+app.get('/api/bug/pageCount', (req, res) => {
+    bugService.getPageCount()
+        .then(pageCount => res.send(pageCount + ''))
+        .catch(err => {
+            loggerService.error(`Couldn't get page count`, err)
+            res.status(500).send(`Couldn't get page count...`)
+        })
+})
+
 app.get('/api/bug/labels', (req, res) => {
     bugService.getLabels()
         .then(labels => res.send(labels))

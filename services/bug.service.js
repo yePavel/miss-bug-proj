@@ -6,11 +6,12 @@ export const bugService = {
     getById,
     save,
     remove,
-    getLabels
+    getLabels,
+    getPageCount
 }
 
 var bugs = utilService.readJsonFile('./data/bug.json')
-const PAGE_SIZE = Math.ceil(bugs.length / 3)
+const PAGE_SIZE = 3
 
 function query(filterBy) {
     var filteredBugs = bugs
@@ -59,6 +60,12 @@ function getLabels() {
             return [...acc, ...bug.labels]
         }, [])
         return [...new Set(bugsLabels)]
+    })
+}
+
+function getPageCount() {
+    return query().then(bugs => {
+        return Math.ceil(bugs.length / PAGE_SIZE)
     })
 }
 

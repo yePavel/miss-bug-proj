@@ -2,7 +2,6 @@ import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
-import { pdfService } from '../services/pdf.service.js'
 import { utilService } from '../services/util.service.js'
 
 const { useState, useEffect, useRef } = React
@@ -10,11 +9,13 @@ const { useState, useEffect, useRef } = React
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [labels, setLabels] = useState([])
+  const [pageCount, setPageCount] = useState(0)
   const [filterBy, setFilterBy] = useState(bugService.createDefaultFilter())
   const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
 
   useEffect(() => {
     loadLabels()
+    loadPageCount()
   }, [])
 
   useEffect(() => {
@@ -37,11 +38,23 @@ export function BugIndex() {
       })
   }
 
+  function loadPageCount() {
+    bugService.getPageCount()
+      .then(pageCount =>
+        setPageCount(pageCount)
+      )
+      .catch(err => {
+        showErrorMsg(`Cannot get page count`)
+        console.log('err:', err)
+      })
+  }
+
   function onRemoveBug(bugId) {
     bugService
       .remove(bugId)
       .then(() => {
         setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
+        loadPageCount()
         console.log('Deleted Succesfully!')
         showSuccessMsg('Bug removed')
       })
@@ -62,6 +75,7 @@ export function BugIndex() {
       .then((savedBug) => {
         console.log('Added Bug', savedBug)
         setBugs(prevBugs => [...prevBugs, savedBug])
+        loadPageCount()
         showSuccessMsg('Bug added')
       })
       .catch((err) => {
@@ -103,7 +117,7 @@ export function BugIndex() {
     <main>
       <h3>Bugs App</h3>
       <main>
-        <BugFilter filterBy={filterBy} onSetFilterBy={debouncedSetFilterBy.current} labels={labels} />
+        <BugFilter pageCount={pageCount} filterBy={filterBy} onSetFilterBy={debouncedSetFilterBy.current} labels={labels} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <button onClick={onCreatePdf}>Download PDF</button>
         {bugs && bugs.length ?

@@ -40,8 +40,12 @@ export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) 
         }))
     }
 
-
-    const { txt, severity, labels, sortBy } = filterByToEdit
+    function onGetPage(dir) {
+        let pageIdx = filterByToEdit.pageIdx + dir
+        if (pageIdx < 0) return
+        setFilterByToEdit(prev => ({ ...prev, pageIdx }))
+    }
+    const { txt, severity, labels, sortBy, pageIdx } = filterByToEdit
 
     return (
         <section className="bug-filter">
@@ -91,6 +95,12 @@ export function BugFilter({ filterBy, onSetFilterBy, labels: availableLabels }) 
                     name='sortDir'
                     type="radio"
                     value="asc" />
+            </div>
+
+            <div>
+                <button onClick={() => onGetPage(-1)}>Prev page</button>
+                <span>-{pageIdx}-</span>
+                <button onClick={() => onGetPage(1)}>Next page</button>
             </div>
 
         </section>

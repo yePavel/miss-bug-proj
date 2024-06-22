@@ -10,9 +10,9 @@ export const bugService = {
 }
 
 var bugs = utilService.readJsonFile('./data/bug.json')
+const PAGE_SIZE = Math.ceil(bugs.length / 3)
 
 function query(filterBy) {
-    console.log('filterBy:', filterBy)
     var filteredBugs = bugs
     if (!filterBy) return Promise.resolve(filteredBugs)
     const regExp = new RegExp(filterBy.txt, 'i')
@@ -20,7 +20,6 @@ function query(filterBy) {
     filteredBugs = bugs.filter((bug) =>
         (regExp.test(bug.description) || regExp.test(bug.title)) &&
         bug.severity >= filterBy.severity
-        // bug.labels.some(label => label.includes(filterBy.labels))
     )
 
     if (filterBy.labels?.length) {
@@ -47,6 +46,10 @@ function query(filterBy) {
                 break;
         }
     }
+
+    const startIdx = filterBy.pageIdx * PAGE_SIZE
+    filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
+
     return Promise.resolve(filteredBugs)
 }
 

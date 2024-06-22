@@ -5,6 +5,7 @@ import fs from 'fs'
 
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
+import { error } from 'console'
 
 const app = express()
 app.use(express.static('public'))
@@ -17,6 +18,7 @@ app.get('/api/bug/', (req, res) => {
         severity: +req.query.severity || 0,
         labels: req.query.labels || [],
         sortBy: req.query.sortBy || '',
+        pageIdx: req.query.pageIdx || 0,
         sortDir: req.query.sortDir === 'des' ? -1 : 1
     }
 
@@ -72,7 +74,7 @@ app.post('/api/bug/', (req, res) => {
         .then(savedBug => res.send(savedBug))
 })
 
-app.get('/api/bug/download', () => {
+app.get('/api/bug/download', (req, res) => {
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream('bugs.pdf'));
     doc.fontSize(25)
@@ -86,7 +88,12 @@ app.get('/api/bug/download', () => {
             doc.text(bugTxt);
         })
         doc.end()
+        res.end()
     })
+        .catch(error => {
+            loggerService.error(`Couldn't download PDF`, error)
+            res.status(500).send(`Couldn't download`)
+        })
 })
 
 app.get('/api/bug/:bugId', (req, res) => {

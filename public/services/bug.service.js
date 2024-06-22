@@ -6,7 +6,7 @@ export const bugService = {
     save,
     remove,
     createDefaultFilter,
-    onDownloadPdf,
+    downloadPdf,
     loadLabels
 }
 
@@ -46,9 +46,10 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: '', labels: [], sortBy: '', sortDir: '' }
+    return { txt: '', severity: '', pageIdx: 0, labels: [], sortBy: '', sortDir: '' }
 }
 
-function onDownloadPdf() {
-    return axios.get(BASE_URL + `download`).then(res => res.data)
+function downloadPdf() {
+    return axios.get(BASE_URL + `download`)
+        .then(res => res.data)
 }

@@ -23,7 +23,6 @@ export function BugIndex() {
 
 
   function loadBugs() {
-    console.log('filterBy:', filterBy)
     bugService.query(filterBy)
       .then(setBugs)
       .catch(err => console.log('err:', err))
@@ -59,8 +58,7 @@ export function BugIndex() {
       severity: +prompt('Bug severity?'),
       labels: [prompt('Bug label?')]
     }
-    bugService
-      .save(bug)
+    bugService.save(bug)
       .then((savedBug) => {
         console.log('Added Bug', savedBug)
         setBugs(prevBugs => [...prevBugs, savedBug])
@@ -91,7 +89,9 @@ export function BugIndex() {
   }
 
   function onCreatePdf() {
-    bugService.onDownloadPdf()
+    bugService.downloadPdf()
+      .then(() => showSuccessMsg('PDF downloaded!'))
+      .catch(error => showErrorMsg('PDF downloaded!', error))
   }
 
   function onSetFilterBy(filterBy) {

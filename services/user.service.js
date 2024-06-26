@@ -24,7 +24,6 @@ function getLoginToken(user) {
 
 function checkLogin({ username, password }) {
     var user = users.find(user => user.username === username)
-    console.log('user:', user)
     if (user) {
         user = {
             _id: user._id,
@@ -36,7 +35,8 @@ function checkLogin({ username, password }) {
 }
 
 function save(user) {
-    user._id = utilService.makeId
+    user._id = utilService.makeId()
+
     users.push(user)
     return _saveUsersToFile().then(() => ({
         _id: user._id,

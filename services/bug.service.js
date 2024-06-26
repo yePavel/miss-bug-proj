@@ -28,7 +28,6 @@ function query(filterBy) {
     }
 
     if (filterBy.sortBy.length > 0) {
-        console.log('filterBy.sortBy:', filterBy.sortBy)
         switch (filterBy.sortBy) {
             case 'title':
                 filteredBugs.sort((a, b) =>
@@ -50,7 +49,6 @@ function query(filterBy) {
 
     const startIdx = filterBy.pageIdx * PAGE_SIZE
     filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
-
     return Promise.resolve(filteredBugs)
 }
 

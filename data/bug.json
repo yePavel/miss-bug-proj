@@ -4,7 +4,7 @@
     "title": "Button Not Clickable",
     "description": "Submit button not responding",
     "createdAt": 1718295576270,
-    "severity": 2,
+    "severity": 6,
     "labels": [
       "medium",
       "need-CR",

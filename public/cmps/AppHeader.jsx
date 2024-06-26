@@ -13,8 +13,9 @@ export function AppHeader() {
   function onLogout() {
     userService.logout()
       .then(() => {
-        onSetUser(null)
+        console.log('hi:',)
         showSuccessMsg('You have logged out successfully')
+        onSetUser(null)
       })
       .catch((err) => {
         showErrorMsg('oops try again')

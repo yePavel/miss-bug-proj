@@ -9,11 +9,7 @@
       "medium",
       "need-CR",
       "urgent"
-    ],
-    "creator": {
-      "_id": "u101",
-      "fullname": "Puki Ja"
-    }
+    ]
   },
   {
     "_id": "LkjQw",
@@ -31,16 +27,12 @@
     "_id": "MzjPf",
     "title": "Database Connection Lost",
     "description": "Intermittent loss of database connection",
-    "severity": 1,
     "createdAt": 1718295576272,
+    "severity": 2,
     "labels": [
       "urgent",
       "critical"
-    ],
-    "creator": {
-      "_id": "u101",
-      "fullname": "Puki Ja"
-    }
+    ]
   },
   {
     "_id": "JzkRt",

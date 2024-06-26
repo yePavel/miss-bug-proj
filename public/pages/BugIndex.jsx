@@ -4,6 +4,7 @@ import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 import { utilService } from '../services/util.service.js'
 import { LoginSignup } from '../cmps/LoginSignup.jsx'
+import { userService } from '../services/user.service.js'
 
 const { useState, useEffect, useRef } = React
 
@@ -13,6 +14,7 @@ export function BugIndex() {
   const [pageCount, setPageCount] = useState(0)
   const [filterBy, setFilterBy] = useState(bugService.createDefaultFilter())
   const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
+  const user = userService.getLoggedInUser()
 
   useEffect(() => {
     loadLabels()
@@ -119,7 +121,7 @@ export function BugIndex() {
       <h3>Bugs App</h3>
       <main>
         <BugFilter pageCount={pageCount} filterBy={filterBy} onSetFilterBy={debouncedSetFilterBy.current} labels={labels} />
-        <button onClick={onAddBug}>Add Bug ⛐</button>
+        {user && <button onClick={onAddBug}>Add Bug ⛐</button>}
         <button onClick={onCreatePdf}>Download PDF</button>
         {bugs && bugs.length ?
           <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />

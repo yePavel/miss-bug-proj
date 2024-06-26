@@ -7,20 +7,21 @@ export const userService = {
     signup,
     logout,
     getEmptyCredentials,
-    getLoggedinUser,
+    getLoggedInUser,
     get
 }
 
 function get(userId) {
-    return axios.get(BASE_URL + userId).then(res => res.data)
+    return axios.get('api/user/' + userId).then(res => res.data)
 }
 
-function getLoggedinUser() {
+function getLoggedInUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 }
 
 function login({ username, password }) {
     return axios.post('/api/auth/login', { username, password })
+        .then(res => res.data)
         .then(user => {
             sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
             return user

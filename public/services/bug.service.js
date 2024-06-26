@@ -36,13 +36,20 @@ function remove(bugId) {
 }
 
 function save(bug) {
-    console.log('bug:', bug)
     if (bug._id) {
         return axios.put(BASE_URL, bug)
             .then(res => res.data)
+            .catch(err => {
+                console.log('err:', err)
+                throw err
+            })
     } else {
         return axios.post(BASE_URL, bug)
             .then(res => res.data)
+            .catch(err => {
+                console.log('err:', err)
+                throw err
+            })
     }
 }
 

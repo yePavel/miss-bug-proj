@@ -49,7 +49,10 @@ app.get('/api/bug/labels', (req, res) => {
         })
 })
 
+// EDIT BUG
 app.put('/api/bug/', (req, res) => {
+    const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot update bug')
     const { _id, title, severity, description, createdAt, labels } = req.body
 
     const bugToSave = {
@@ -69,7 +72,11 @@ app.put('/api/bug/', (req, res) => {
 
 })
 
+// ADD BUG
+
 app.post('/api/bug/', (req, res) => {
+    const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot update bug')
     const { title, severity, description, createdAt, labels } = req.body
 
     const bugToSave = {
@@ -82,7 +89,7 @@ app.post('/api/bug/', (req, res) => {
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
 })
-
+// DOWNLOAD BUG LIST
 app.get('/api/bug/download', (req, res) => {
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream('bugs.pdf'));
@@ -104,7 +111,7 @@ app.get('/api/bug/download', (req, res) => {
             res.status(500).send(`Couldn't download`)
         })
 })
-
+// SHOW BUG DETAILS
 app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
 
@@ -121,8 +128,11 @@ app.get('/api/bug/:bugId', (req, res) => {
             res.status(500).send(`Couldn't get bug ${bugId}`)
         })
 })
-
+// REMOVE BUG
 app.delete('/api/bug/:bugId', (req, res) => {
+    const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot update bug')
+
     const { _id } = req.body
     bugService.remove(_id)
         .then(() => res.send(`Bug ${_id} has been deleted..`))
@@ -134,7 +144,7 @@ app.delete('/api/bug/:bugId', (req, res) => {
 
 // AUTH API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-app.get('/api/user', (req, res) => {
+app.get('/api/:userId', (req, res) => {
     userService.query()
         .then((users) => {
             res.send(users)
@@ -142,6 +152,18 @@ app.get('/api/user', (req, res) => {
         .catch((err) => {
             console.log('Cannot load users', err)
             res.status(400).send('Cannot load users')
+        })
+})
+
+app.get('/api/user/:userId', (req, res) => {
+    const { userId } = req.params
+    userService.getById(userId)
+        .then((user) => {
+            res.send(user)
+        })
+        .catch((err) => {
+            console.log('Cannot load user', err)
+            res.status(400).send('Cannot load user')
         })
 })
 
@@ -164,6 +186,7 @@ app.post('/api/auth/login', (req, res) => {
     const credentials = req.body
     userService.checkLogin(credentials)
         .then(user => {
+            console.log('user:', user)
             if (user) {
                 const loginToken = userService.getLoginToken(user)
                 res.cookie('loginToken', loginToken)

@@ -9,11 +9,32 @@ export const userService = {
     query,
     checkLogin,
     save,
-    getLoginToken
+    getLoginToken,
+    validateLoginToken,
+    getById
 }
 
 function query() {
     return Promise.resolve(users)
+}
+
+function getById(userId) {
+    const user = users.find(user => user._id === userId)
+    if (!user) return Promise.reject('cant find user!')
+    user = {
+        _id: user._id,
+        username: user.username,
+        fullname: user.fullname,
+    }
+
+    return Promise.resolve(user)
+}
+
+function validateLoginToken(token) {
+    if (!token) return null
+    const str = cryptr.decrypt(token)
+    const user = JSON.parse(str)
+    return user
 }
 
 function getLoginToken(user) {

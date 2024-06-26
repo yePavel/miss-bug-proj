@@ -5,6 +5,7 @@ import fs from 'fs'
 
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
+import { userService } from './services/user.service.js'
 import { error } from 'console'
 
 const app = express()
@@ -59,7 +60,6 @@ app.put('/api/bug/', (req, res) => {
         severity: +severity || 0,
         labels: labels || []
     }
-
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
@@ -131,5 +131,54 @@ app.delete('/api/bug/:bugId', (req, res) => {
             res.status(500).send(`Couldn't delete bug ${_id}`)
         })
 })
+
+// AUTH API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+app.get('/api/user', (req, res) => {
+    userService.query()
+        .then((users) => {
+            res.send(users)
+        })
+        .catch((err) => {
+            console.log('Cannot load users', err)
+            res.status(400).send('Cannot load users')
+        })
+})
+
+app.post('/api/auth/signup', (req, res) => {
+    const credentials = req.body
+
+    userService.save(credentials)
+        .then(user => {
+            if (user) {
+                const loginToken = userService.getLoginToken(user)
+                res.cookie('loginToken', loginToken)
+                res.send(user)
+            } else {
+                res.status(401).send('Invalid Credentials')
+            }
+        })
+})
+
+app.post('/api/auth/login', (req, res) => {
+    const credentials = req.body
+    userService.checkLogin(credentials)
+        .then(user => {
+            if (user) {
+                const loginToken = userService.getLoginToken(user)
+                res.cookie('loginToken', loginToken)
+                res.send(user)
+            } else {
+                res.status(401).send('Invalid Credentials')
+            }
+        })
+})
+
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('loginToken')
+    res.send('logged-out!')
+})
+
+
 
 app.listen(3030, () => console.log('Server ready at port 3030')) 

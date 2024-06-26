@@ -1,2 +1,1 @@
-22.6.2024, 12:08:14 - ERROR - Couldn't get page count | RangeError [ERR_HTTP_INVALID_STATUS_CODE]: Invalid status code: 3
-22.6.2024, 12:08:32 - ERROR - Couldn't get page count | RangeError [ERR_HTTP_INVALID_STATUS_CODE]: Invalid status code: 3
+23.6.2024, 19:02:05 - ERROR - Couldn't update bug NvjRw | TypeError: res.sדend is not a function

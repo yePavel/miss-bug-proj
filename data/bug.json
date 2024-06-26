@@ -3,8 +3,8 @@
     "_id": "NvjRw",
     "title": "Button Not Clickable",
     "description": "Submit button not responding",
-    "severity": 3,
     "createdAt": 1718295576270,
+    "severity": 2,
     "labels": [
       "medium",
       "need-CR",
@@ -15,8 +15,8 @@
     "_id": "LkjQw",
     "title": "CSS Styling Broken",
     "description": "Styles not loading on homepage",
-    "severity": 4,
     "createdAt": 1718295576273,
+    "severity": 3,
     "labels": [
       "medium",
       "need-CR",

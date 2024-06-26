@@ -32,7 +32,7 @@ function doLog(level, ...args) {
 
     console.log(line)
     fs.appendFile(`${logsDir}/backend.log`, line, (err) => {
-        if (err) console.log('FATAL: cannot write to log file')
+        if (err) console.log('FATAL: cannot write to log file', err)
     })
 }
 

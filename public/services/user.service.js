@@ -12,7 +12,8 @@ export const userService = {
 }
 
 function get(userId) {
-    return axios.get('api/user/' + userId).then(res => res.data)
+    return axios.get('api/user/' + userId)
+        .then(res => res.data)
 }
 
 function getLoggedInUser() {

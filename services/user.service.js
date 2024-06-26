@@ -19,8 +19,9 @@ function query() {
 }
 
 function getById(userId) {
-    const user = users.find(user => user._id === userId)
+    var user = users.find(user => user._id === userId)
     if (!user) return Promise.reject('cant find user!')
+
     user = {
         _id: user._id,
         username: user.username,

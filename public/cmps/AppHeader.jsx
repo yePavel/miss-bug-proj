@@ -13,7 +13,6 @@ export function AppHeader() {
   function onLogout() {
     userService.logout()
       .then(() => {
-        console.log('hi:',)
         showSuccessMsg('You have logged out successfully')
         onSetUser(null)
       })

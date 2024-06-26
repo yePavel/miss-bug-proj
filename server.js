@@ -157,8 +157,10 @@ app.get('/api/:userId', (req, res) => {
 
 app.get('/api/user/:userId', (req, res) => {
     const { userId } = req.params
+    console.log('userId:', userId)
     userService.getById(userId)
         .then((user) => {
+            console.log('user:', user)
             res.send(user)
         })
         .catch((err) => {
@@ -186,7 +188,6 @@ app.post('/api/auth/login', (req, res) => {
     const credentials = req.body
     userService.checkLogin(credentials)
         .then(user => {
-            console.log('user:', user)
             if (user) {
                 const loginToken = userService.getLoginToken(user)
                 res.cookie('loginToken', loginToken)

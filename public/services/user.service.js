@@ -24,6 +24,7 @@ function login({ username, password }) {
     return axios.post('/api/auth/login', { username, password })
         .then(res => res.data)
         .then(user => {
+            console.log('user:', user)
             sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
             return user
         })

@@ -53,7 +53,7 @@ app.get('/api/bug/labels', (req, res) => {
 app.put('/api/bug/', (req, res) => {
     const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
     if (!loggedInUser) return res.status(401).send('Cannot update bug')
-    const { _id, title, severity, description, createdAt, labels } = req.body
+    const { _id, title, severity, description, createdAt, labels, creator } = req.body
 
     const bugToSave = {
         _id,
@@ -61,7 +61,8 @@ app.put('/api/bug/', (req, res) => {
         description: description || '',
         createdAt: +createdAt || 0,
         severity: +severity || 0,
-        labels: labels || []
+        labels: labels || [],
+        creator: creator || {}
     }
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
@@ -77,18 +78,20 @@ app.put('/api/bug/', (req, res) => {
 app.post('/api/bug/', (req, res) => {
     const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
     if (!loggedInUser) return res.status(401).send('Cannot update bug')
-    const { title, severity, description, createdAt, labels } = req.body
-
+    const { title, severity, description, createdAt, labels, creator } = req.body
+    console.log('loggedInUser:', loggedInUser)
     const bugToSave = {
         title: title || '',
         description: description || '',
         createdAt: +createdAt || 0,
         severity: +severity || 0,
-        labels: labels || []
+        labels: labels || [],
+        creator: loggedInUser || {}
     }
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
 })
+
 // DOWNLOAD BUG LIST
 app.get('/api/bug/download', (req, res) => {
     const doc = new PDFDocument();
@@ -133,16 +136,15 @@ app.delete('/api/bug/:bugId', (req, res) => {
     const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
     if (!loggedInUser) return res.status(401).send('Cannot update bug')
 
-    const { _id } = req.body
-    bugService.remove(_id)
-        .then(() => res.send(`Bug ${_id} has been deleted..`))
+    const { bugId } = req.params
+
+    bugService.remove(bugId, loggedInUser)
+        .then(() => res.send(`Bug ${bugId} has been deleted..`))
         .catch(err => {
-            loggerService.error(`Couldn't delete bug ${_id}`, err)
-            res.status(500).send(`Couldn't delete bug ${_id}`)
+            loggerService.error(`Couldn't delete bug ${bugId}`, err)
+            res.status(500).send(`Couldn't delete bug ${bugId}`)
         })
 })
-
-// AUTH API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 app.get('/api/:userId', (req, res) => {
     userService.query()
@@ -169,40 +171,35 @@ app.get('/api/user/:userId', (req, res) => {
         })
 })
 
+// AUTH API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 app.post('/api/auth/signup', (req, res) => {
     const credentials = req.body
 
-    userService.save(credentials)
+    userService.signup(credentials)
         .then(user => {
-            if (user) {
-                const loginToken = userService.getLoginToken(user)
-                res.cookie('loginToken', loginToken)
-                res.send(user)
-            } else {
-                res.status(401).send('Invalid Credentials')
-            }
+            const loginToken = userService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
         })
+        .catch(err => res.status(401).send('Signup failed'))
 })
 
 app.post('/api/auth/login', (req, res) => {
     const credentials = req.body
+
     userService.checkLogin(credentials)
         .then(user => {
-            if (user) {
-                const loginToken = userService.getLoginToken(user)
-                res.cookie('loginToken', loginToken)
-                res.send(user)
-            } else {
-                res.status(401).send('Invalid Credentials')
-            }
+            const loginToken = userService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
         })
+        .catch(err => res.status(401).send(err))
 })
 
 app.post('/api/auth/logout', (req, res) => {
     res.clearCookie('loginToken')
     res.send('logged-out!')
 })
-
-
 
 app.listen(3030, () => console.log('Server ready at port 3030')) 

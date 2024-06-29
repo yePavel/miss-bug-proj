@@ -8,7 +8,7 @@ const users = utilService.readJsonFile('data/user.json')
 export const userService = {
     query,
     checkLogin,
-    save,
+    signup,
     getLoginToken,
     validateLoginToken,
     getById
@@ -39,27 +39,29 @@ function validateLoginToken(token) {
 }
 
 function getLoginToken(user) {
-    const str = JSON.stringify(user)
-    const encryptedStr = cryptr.encrypt(str)
-    return encryptedStr
+    return cryptr.encrypt(JSON.stringify(user))
 }
 
 function checkLogin({ username, password }) {
-    var user = users.find(user => user.username === username)
-    if (user) {
-        user = {
-            _id: user._id,
-            fullname: user.fullname,
-            isAdmin: user.isAdmin
-        }
+    var user = users.find(user => user.username === username && user.username === password)
+
+    if (!user) return Promise.reject('Invalid username or password')
+    user = {
+        _id: user._id,
+        fullname: user.fullname,
+        isAdmin: user.isAdmin
     }
+
     return Promise.resolve(user)
 }
 
-function save(user) {
-    user._id = utilService.makeId()
+function signup(user) {
+    const { fullname, username, password } = user
+    if (!fullname || !username || !password) return Promise.reject('Incomplete credentials')
 
+    user._id = utilService.makeId()
     users.push(user)
+
     return _saveUsersToFile().then(() => ({
         _id: user._id,
         fullname: user.fullname,

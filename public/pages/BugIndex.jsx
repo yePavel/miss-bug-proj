@@ -72,8 +72,9 @@ export function BugIndex() {
       title: prompt('Bug title?'),
       description: prompt('Insert description:'),
       severity: +prompt('Bug severity?'),
-      labels: [prompt('Bug label?')]
+      labels: [prompt('Bug label?')],
     }
+
     bugService.save(bug)
       .then((savedBug) => {
         console.log('Added Bug', savedBug)

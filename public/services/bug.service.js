@@ -36,6 +36,7 @@ function remove(bugId) {
 }
 
 function save(bug) {
+
     if (bug._id) {
         return axios.put(BASE_URL, bug)
             .then(res => res.data)

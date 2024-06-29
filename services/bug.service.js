@@ -72,8 +72,14 @@ function getById(bugId) {
     return Promise.resolve(currBug)
 }
 
-function remove(bugId) {
+function remove(bugId, loggedinUser) {
     const idx = bugs.findIndex(bug => bug._id === bugId)
+    if (idx === -1) return Promise.reject('No such bug')
+    console.log('bugs[idx].creator:', bugs[idx].creator)
+    if (bugs[idx].creator._id !== loggedinUser._id && !loggedinUser.isAdmin) {
+        return Promise.reject('Not authorized delete this bug')
+    }
+
     bugs.splice(idx, 1)
     return _saveBugsToFile()
 }

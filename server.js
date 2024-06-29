@@ -20,7 +20,8 @@ app.get('/api/bug/', (req, res) => {
         labels: req.query.labels || [],
         sortBy: req.query.sortBy || '',
         pageIdx: req.query.pageIdx || 0,
-        sortDir: req.query.sortDir === 'des' ? -1 : 1
+        sortDir: req.query.sortDir === 'des' ? -1 : 1,
+        userId: req.query.userId || ''
     }
 
     bugService.query(filterBy)

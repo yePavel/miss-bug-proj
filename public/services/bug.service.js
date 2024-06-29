@@ -55,7 +55,7 @@ function save(bug) {
 }
 
 function createDefaultFilter() {
-    return { txt: '', severity: '', pageIdx: 0, labels: [], sortBy: '', sortDir: '' }
+    return { txt: '', severity: '', pageIdx: 0, labels: [], sortBy: '', sortDir: '', userId: '' }
 }
 
 function downloadPdf() {

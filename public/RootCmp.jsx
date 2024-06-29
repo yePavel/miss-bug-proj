@@ -9,6 +9,7 @@ import { BugDetails } from './pages/BugDetails.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
+import { AdminDashboard } from './pages/AdminDashboard.jsx'
 
 export function App() {
   return (
@@ -21,6 +22,7 @@ export function App() {
             <Route path="/bug" element={<BugIndex />} />
             <Route path="/bug/:bugId" element={<BugDetails />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/user/:userId" element={<UserDetails />} />
           </Routes>
         </main>

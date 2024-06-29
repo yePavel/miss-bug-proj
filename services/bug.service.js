@@ -14,7 +14,6 @@ var bugs = utilService.readJsonFile('./data/bug.json')
 const PAGE_SIZE = 3
 
 function query(filterBy) {
-    console.log('filterBy:', filterBy)
     var filteredBugs = bugs
     if (!filterBy) return Promise.resolve(filteredBugs)
     const regExp = new RegExp(filterBy.txt, 'i')

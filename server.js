@@ -147,20 +147,25 @@ app.delete('/api/bug/:bugId', (req, res) => {
         })
 })
 
-app.get('/api/:userId', (req, res) => {
+// GET USERS LIST
+app.get('/api/user', (req, res) => {
+
+    const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
+    if (!loggedInUser || !loggedInUser.isAdmin)
+        return res.status(401).send('Cannot get users list')
+
     userService.query()
-        .then((users) => {
-            res.send(users)
-        })
+        .then((users) => { res.send(users) })
         .catch((err) => {
             console.log('Cannot load users', err)
-            res.status(400).send('Cannot load users')
+            res.status(500).send('Cannot load users')
         })
 })
 
+// GET ONE USER BY ID
 app.get('/api/user/:userId', (req, res) => {
     const { userId } = req.params
-    console.log('userId:', userId)
+
     userService.getById(userId)
         .then((user) => {
             console.log('user:', user)
@@ -169,6 +174,19 @@ app.get('/api/user/:userId', (req, res) => {
         .catch((err) => {
             console.log('Cannot load user', err)
             res.status(400).send('Cannot load user')
+        })
+})
+
+// DELETE USER
+app.delete('api/user/:userId', (req, res) => {
+    const { userId } = req.params
+    console.log('userId:', userId)
+
+    userService.remove(userId)
+        .then(() => res.send(`user has been deleted..`))
+        .catch(err => {
+            loggerService.error(`Couldn't delete user `, err)
+            res.status(500).send(`Couldn't delete user`)
         })
 })
 

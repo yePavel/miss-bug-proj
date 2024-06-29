@@ -11,11 +11,20 @@ export const userService = {
     signup,
     getLoginToken,
     validateLoginToken,
-    getById
+    getById,
+    remove
 }
 
 function query() {
     return Promise.resolve(users)
+}
+
+function remove(userId) {
+    console.log('userId:', userId)
+    var user = users.find(user => user._id === userId)
+    console.log('user:', user)
+    if (!user) return Promise.reject('cant find user!')
+
 }
 
 function getById(userId) {

@@ -63,6 +63,7 @@ export function UserDetails() {
     return (
         <section>
             <h1>{user.fullname}</h1>
+            {user.isAdmin && <Link to="/admin">Users List</Link>}
             <h3>Bugs List:</h3>
             {bugs && bugs.length ?
                 <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />

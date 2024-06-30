@@ -15,17 +15,17 @@ export const userService = {
 
 function remove(userId) {
     console.log('userId:', userId)
-    return axios.delete('api/user/' + userId)
+    return axios.delete('/api/user/' + userId)
         .then(res => res.data)
 }
 
 function query() {
-    return axios.get('api/user/')
+    return axios.get('/api/user/')
         .then(res => res.data)
 }
 
 function get(userId) {
-    return axios.get('api/user/' + userId)
+    return axios.get('/api/user/' + userId)
         .then(res => res.data)
 }
 

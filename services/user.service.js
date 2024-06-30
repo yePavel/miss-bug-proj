@@ -4,7 +4,6 @@ import { utilService } from './util.service.js'
 
 const cryptr = new Cryptr(process.env.SECRET1 || 'secret-key-1234')
 const users = utilService.readJsonFile('data/user.json')
-
 export const userService = {
     query,
     checkLogin,
@@ -20,11 +19,13 @@ function query() {
 }
 
 function remove(userId) {
-    console.log('userId:', userId)
-    var user = users.find(user => user._id === userId)
-    console.log('user:', user)
-    if (!user) return Promise.reject('cant find user!')
+    console.log('users:', users)
+    var idx = users.findIndex(user => user._id === userId)
+    console.log('idx from user.service.js', idx)
+    if (idx === -1) return Promise.reject('cant find user!')
 
+    users.splice(idx, 1)
+    return _saveUsersToFile()
 }
 
 function getById(userId) {

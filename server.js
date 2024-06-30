@@ -179,9 +179,9 @@ app.get('/api/user', (req, res) => {
 })
 
 // DELETE USER
-app.delete('api/user/:userId', (req, res) => {
+app.delete('/api/user/:userId', (req, res) => {
     const { userId } = req.params
-    console.log('userId:', userId)
+    console.log('userId from server.js', userId)
 
     userService.remove(userId)
         .then(() => res.send(`user has been deleted..`))

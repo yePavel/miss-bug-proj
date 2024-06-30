@@ -17,6 +17,10 @@ export function AdminDashboard() {
 
     function removeUser(user) {
         userService.remove(user._id)
+            .then(() => {
+                const updatedUsers = users.filter((u) => u._id !== user._id)
+                setUsers(updatedUsers)
+            })
     }
 
     return (

@@ -12,24 +12,5 @@
     "username": "puki",
     "fullname": "Puki Ja",
     "password": "1234"
-  },
-  {
-    "_id": "u102",
-    "username": "muki",
-    "fullname": "Muki Ba",
-    "password": "1234",
-    "score": 100
-  },
-  {
-    "username": "ok",
-    "password": "ok",
-    "fullname": "ok",
-    "_id": "tAPHVF"
-  },
-  {
-    "username": "gg",
-    "password": "gg",
-    "fullname": "gg",
-    "_id": "xUeBRb"
   }
 ]

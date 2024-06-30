@@ -25,7 +25,7 @@ export function AdminDashboard() {
             <ul className="user-list">
                 {users.map((user) => (
                     <li className="user-preview" key={user._id}>
-                        <span>{user.username}</span>
+                        <span>{user.username} </span>
                         <span>{user.fullname}</span>
                         <button onClick={() => removeUser(user)}>Remove user</button>
                     </li>

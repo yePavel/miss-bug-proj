@@ -2,7 +2,7 @@ import fs from 'fs'
 import Cryptr from 'cryptr'
 import { utilService } from './util.service.js'
 
-const cryptr = new Cryptr(process.env.SECRET1 || 'secret-puk-1234')
+const cryptr = new Cryptr(process.env.SECRET1 || 'secret-key-1234')
 const users = utilService.readJsonFile('data/user.json')
 
 export const userService = {
@@ -41,10 +41,14 @@ function getById(userId) {
 }
 
 function validateLoginToken(token) {
-    if (!token) return null
-    const str = cryptr.decrypt(token)
-    const user = JSON.parse(str)
-    return user
+    try {
+        const str = cryptr.decrypt(token)
+        const user = JSON.parse(str)
+        return user
+    } catch (err) {
+        console.log('Invalid login')
+        return null
+    }
 }
 
 function getLoginToken(user) {

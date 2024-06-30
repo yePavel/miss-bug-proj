@@ -8,6 +8,7 @@ import { loggerService } from './services/logger.service.js'
 import { userService } from './services/user.service.js'
 import { error } from 'console'
 
+
 const app = express()
 app.use(express.static('public'))
 app.use(cookieParser())
@@ -147,21 +148,6 @@ app.delete('/api/bug/:bugId', (req, res) => {
         })
 })
 
-// GET USERS LIST
-app.get('/api/user', (req, res) => {
-
-    const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
-    if (!loggedInUser || !loggedInUser.isAdmin)
-        return res.status(401).send('Cannot get users list')
-
-    userService.query()
-        .then((users) => { res.send(users) })
-        .catch((err) => {
-            console.log('Cannot load users', err)
-            res.status(500).send('Cannot load users')
-        })
-})
-
 // GET ONE USER BY ID
 app.get('/api/user/:userId', (req, res) => {
     const { userId } = req.params
@@ -174,6 +160,21 @@ app.get('/api/user/:userId', (req, res) => {
         .catch((err) => {
             console.log('Cannot load user', err)
             res.status(400).send('Cannot load user')
+        })
+})
+
+// GET USERS LIST
+app.get('/api/user', (req, res) => {
+
+    const loggedInUser = userService.validateLoginToken(req.cookies.loginToken)
+    if (!loggedInUser || !loggedInUser.isAdmin)
+        return res.status(401).send('Cannot get users list')
+
+    userService.query()
+        .then((users) => { res.send(users) })
+        .catch((err) => {
+            console.log('Cannot load users', err)
+            res.status(500).send('Cannot load users')
         })
 })
 
@@ -221,4 +222,5 @@ app.post('/api/auth/logout', (req, res) => {
     res.send('logged-out!')
 })
 
-app.listen(3030, () => console.log('Server ready at port 3030')) 
+const PORT = process.env.PORT || 3030
+app.listen(PORT, () => console.log(`Server ready at port ${PORT}`)) 
